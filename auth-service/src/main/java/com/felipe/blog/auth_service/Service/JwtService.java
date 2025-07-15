@@ -1,7 +1,6 @@
 package com.felipe.blog.auth_service.Service;
 
 import com.felipe.blog.auth_service.Domain.User;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -9,7 +8,6 @@ import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -38,34 +36,6 @@ public class JwtService {
                 .setExpiration(new Date(System.currentTimeMillis() + 1000*60*60))
                 .signWith(SignatureAlgorithm.HS256,key)
                 .compact();
-    }
-
-    public String extractUsername(String token){
-        return Jwts.parser()
-                .setSigningKey(key)
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
-    }
-
-    public boolean isTokenValid(UserDetails userDetails, String token){
-        final String username = extractUsername(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
-    }
-
-    public boolean isTokenExpired(String token){
-
-        try {
-            final Date expiration = Jwts.parser()
-                    .setSigningKey(key)
-                    .parseClaimsJws(token)
-                    .getBody()
-                    .getExpiration();
-
-            return expiration.before(new Date());
-        }catch (ExpiredJwtException ex){
-            return true;
-        }
     }
 
 }

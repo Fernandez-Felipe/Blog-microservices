@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -54,7 +55,9 @@ public class AuthServiceTest {
 
         LoginResponseDto response = authService.Login(request);
 
-        
+        String token = jwtService.GenerateToken(user);
+
+        assertEquals(token,response.getToken());
 
     }
 
