@@ -92,7 +92,7 @@ public class UserServiceTest {
                 .role("USER")
                 .build();
 
-        when(userRepository.findUserByUserName("Felipe")).thenReturn(Optional.ofNullable(user));
+        when(userRepository.findUserByUsername("Felipe")).thenReturn(Optional.ofNullable(user));
         when(userMapper.mapToUserResponseDto(any(User.class))).thenReturn(userResponseDto);
 
         UserResponseDto Result = userService.findUserByName("Felipe");
@@ -101,7 +101,37 @@ public class UserServiceTest {
         assertEquals("feliandres57@gmail.com",Result.getEmail());
         assertEquals("USER",Result.getRole());
 
-        verify(userRepository).findUserByUserName("Felipe");
+        verify(userRepository).findUserByUsername("Felipe");
+        verify(userMapper).mapToUserResponseDto(any(User.class));
+
+    }
+
+    @Test
+    void getUserByEmailSuccesfully(){
+
+        UserResponseDto userResponseDto = UserResponseDto.builder()
+                .username("Felipe")
+                .email("feliandres57@gmail.com")
+                .role("USER")
+                .build();
+
+        User user = User.builder()
+                .username("Felipe")
+                .email("feliandres57@gmail.com")
+                .password("12345")
+                .role("USER")
+                .build();
+
+        when(userRepository.findUserByEmail("feliandres57@gmail.com")).thenReturn(Optional.ofNullable(user));
+        when(userMapper.mapToUserResponseDto(any(User.class))).thenReturn(userResponseDto);
+
+        UserResponseDto Result = userService.findUserByEmail("feliandres57@gmail.com");
+
+        assertEquals("Felipe", Result.getUsername());
+        assertEquals("feliandres57@gmail.com",Result.getEmail());
+        assertEquals("USER",Result.getRole());
+
+        verify(userRepository).findUserByEmail("feliandres57@gmail.com");
         verify(userMapper).mapToUserResponseDto(any(User.class));
 
     }

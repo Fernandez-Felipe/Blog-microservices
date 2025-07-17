@@ -6,6 +6,7 @@ import com.felipe.blog.auth_service.Dto.User.UserResponseDto;
 import com.felipe.blog.auth_service.Mapper.UserMapper;
 import com.felipe.blog.auth_service.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -38,10 +39,15 @@ public class UserService {
 
     public UserResponseDto findUserByName(String userName){
 
-        User user = userRepository.findUserByUserName(userName).orElseThrow();
+        User user = userRepository.findUserByUsername(userName).orElseThrow();
 
         return userMapper.mapToUserResponseDto(user);
 
+    }
+
+    public UserResponseDto findUserByEmail(String email){
+        User user = userRepository.findUserByEmail(email).orElseThrow();
+        return userMapper.mapToUserResponseDto(user);
     }
 
 }

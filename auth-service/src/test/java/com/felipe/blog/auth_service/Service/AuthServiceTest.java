@@ -49,7 +49,7 @@ public class AuthServiceTest {
                 .build();
 
 
-        when(userRepository.findUserByUserName("Felipe")).thenReturn(Optional.ofNullable(user));
+        when(userRepository.findUserByUsername("Felipe")).thenReturn(Optional.ofNullable(user));
         Assertions.assertNotNull(user);
         when(passwordEncoder.matches(request.getPassword(),user.getPassword())).thenReturn(true);
 

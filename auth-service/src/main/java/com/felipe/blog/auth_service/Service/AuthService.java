@@ -20,7 +20,7 @@ public class AuthService {
 
     public LoginResponseDto Login(LoginRequestDto request){
 
-        User user = userRepository.findUserByUserName(request.getUsernameoremail())
+        User user = userRepository.findUserByUsername(request.getUsernameoremail())
                 .or(() ->userRepository.findUserByEmail(request.getUsernameoremail()))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
